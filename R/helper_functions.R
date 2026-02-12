@@ -70,13 +70,46 @@ cv <- function(x) {
   100 * sd(x) / mean(x)
 }
 
+## original imageHTS::zprime
+zprime_imageHTS = function(a, b, method=c('mahalanobis', 'robust', 'fixsd', 'original')) {
+  method = match.arg(method)
+  
+  if (method=='mahalanobis') {
+    if (is.null(dim(a))) a = matrix(a, ncol=1)
+    if (is.null(dim(b))) b = matrix(b, ncol=1)
+    mua = apply(a, 2, mean)
+    mub = apply(b, 2, mean)
+    dm = try(mahalanobis(mua, mub, cov(a) + cov(b)))
+    if (class(dm)=='try-error') NA
+    else 1-3/sqrt(dm)
+  }
+  else {
+    if (method=='robust') 1-3*(mad(a)+mad(b))/abs(median(a)-median(b))
+    else if (method=='fixsd') 1-3*sqrt(var(a)+var(b))/abs(mean(a)-mean(b))
+    else 1-3*(sd(a)+sd(b))/abs(mean(a)-mean(b))
+  }
+}
+
+
+
 ## z' between pos and neg
 zprime <- function(x, method = c("fixsd", "robust")) {
-  imageHTS::zprime(
+  zprime_imageHTS(
     x$Readout[x$WellType == "pos"], x$Readout[x$WellType == "neg"],
     method = method
   )
 }
+
+
+
+                
+## z' between pos and neg
+#zprime <- function(x, method = c("fixsd", "robust")) {
+#  imageHTS::zprime(
+#    x$Readout[x$WellType == "pos"], x$Readout[x$WellType == "neg"],
+#    method = method
+#  )
+#}
 
 
 ## Helper functions for normalizations
