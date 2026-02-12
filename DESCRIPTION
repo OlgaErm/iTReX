@@ -37,7 +37,7 @@ Imports: ComplexHeatmap, OmnipathR, base64enc, bayestestR, circlize,
     readxl, rlang, rmarkdown, shinyjs, shinythemes, shinyWidgets, stats, stringr,
     tools, tibble, tidyr, utils, zeallot, zip
 Suggests: BiocCheck, Cairo, curl, devtools, fs, httr, kableExtra, lintr,
-    processx, remotes, rmdformats, shinytest2, styler, testthat (>= 3.0.0)
+    processx, remotes, rmdformats, shinytest, styler, testthat (>= 3.0.0)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
